@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { addTodo, fetchTodo, markTodo } from './actions'
+import { addTodo, fetchTodo, markTodo, deleteTodo } from './actions'
 import ToDosList from './ToDosList'
 import ToDosDone from './ToDosDone'
 
@@ -16,6 +16,7 @@ class ToDosContainer extends React.Component {
         this.onTextChange = this.onTextChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onItemDone = this.onItemDone.bind(this);
+        this.onItemDelete = this.onItemDelete.bind(this);
     }
 
     componentDidMount() {
@@ -36,7 +37,7 @@ class ToDosContainer extends React.Component {
 
     onClick(ev) {
         this.props.addTodo(this.state.inputVal)
-        this.setState({ newTodoVal: '' })
+        this.setState({ inputVal: '' })
     }
 
     onItemDone(id) {
@@ -55,14 +56,27 @@ class ToDosContainer extends React.Component {
         this.props.markTodo(newTodos)
     }
 
+    onItemDelete(id) {
+        console.log(id)
+        let cont = 0
+        let posDelete = 0
+        this.props.todos.map(function (item) {
+            if (item.id === id) {
+                posDelete = cont
+            }
+            cont++
+        })
+        this.props.deleteTodo(posDelete)
+    }
+
     render() {
         return (
             <div>
                 <input type="text" value={this.state.inputVal} id="todoVal" onChange={this.onTextChange} />
                 <button className="button-secondary pure-button" onClick={this.onClick}>Add Todo</button>
-                <ToDosList todos={this.props.todos} onItemDone={this.onItemDone} />
+                <ToDosList todos={this.props.todos} onItemDone={this.onItemDone} onItemDelete={this.onItemDelete} />
                 <h1>Done:</h1>
-                <ToDosDone todos={this.props.todos} onItemDone={this.onItemDone} />
+                <ToDosDone todos={this.props.todos} onItemDone={this.onItemDone} onItemDelete={this.onItemDelete} />
             </div>
         );
     }
@@ -78,7 +92,8 @@ function mapDispatchToProps(dispatch) {
     return {
         addTodo: value => dispatch(addTodo(value)),
         fetchTodo: value => dispatch(fetchTodo(value)),
-        markTodo: value => dispatch(markTodo(value))
+        markTodo: value => dispatch(markTodo(value)),
+        deleteTodo: id => dispatch(deleteTodo(id))
     }
 }
 

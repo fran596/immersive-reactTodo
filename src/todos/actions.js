@@ -3,6 +3,7 @@
 const ADD_TODO = 'ADD_TODO'
 const FETCH_TODOS = 'FETCH_TODOS'
 const MARK_TODO = 'MARK_TODO'
+const DELETE_TODO = 'DELETE_TODO'
 
 export const addTodo = value => {
     return {
@@ -22,5 +23,12 @@ export const markTodo = value => {
     return {
         type: MARK_TODO,
         value
+    }
+}
+
+export const deleteTodo = id => {
+    return {
+        type: DELETE_TODO,
+        id
     }
 }

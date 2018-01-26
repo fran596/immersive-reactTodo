@@ -6,7 +6,10 @@ class ToDoItem extends React.Component {
     render() {
         return (
             <div>
-                <li>{this.props.todo.value} <span> <input type="checkbox" onChange={()=>this.props.onItemDone(this.props.todo.id)} /> </span></li> 
+                <li>{this.props.todo.value} 
+                <span> <input type="checkbox" onChange={()=>this.props.onItemDone(this.props.todo.id)} /></span>
+                <span> <button onClick={()=>this.props.onItemDelete(this.props.todo.id)} >Delete</button> </span>
+                </li> 
             </div>
         );
     }

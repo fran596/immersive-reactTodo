@@ -26,6 +26,12 @@ const todos = (state = DEFAULT_STATE, action) => {
                 ...state,
                 todos: action.value
             }
+        case 'DELETE_TODO':
+            return{
+                todos: [...state.todos.slice(0,action.id),
+                ...state.todos.slice(++action.id)
+                ]
+            }
         default:
             return state
     }

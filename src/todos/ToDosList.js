@@ -10,7 +10,7 @@ class ToDosList extends React.Component {
                 {
                     props.todos.map(function (item) {
                         if (item.done === false) {
-                            return < ToDoItem key={item.id} todo={item} onItemDone={props.onItemDone} />
+                            return < ToDoItem key={item.id} todo={item} onItemDone={props.onItemDone} onItemDelete={props.onItemDelete} />
                         }
                     })
                 }
