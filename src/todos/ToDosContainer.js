@@ -1,14 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
+import { addTodo, fetchTodo, markTodo } from './actions'
 import ToDosList from './ToDosList'
 import ToDosDone from './ToDosDone'
-import uuid from 'uuid'
+
 
 class ToDosContainer extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            todos: [],
             inputVal: ''
         },
         this.onTextChange = this.onTextChange.bind(this);
@@ -16,14 +18,16 @@ class ToDosContainer extends React.Component {
         this.onItemDone = this.onItemDone.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
+        this.getFetch()
+    }
+
+    getFetch() {
         fetch('http://localhost:2000/todos').then((data) => {
-            //console.log(data)
             return data.json()
-          }).then((todos) => {
-            //console.log(todos)
-            this.setState({ todos: todos })
-          })
+        }).then((todos) => {
+            this.props.fetchTodo(todos)
+        })
     }
 
     onTextChange(ev) {
@@ -31,42 +35,53 @@ class ToDosContainer extends React.Component {
     }
 
     onClick(ev) {
-        let newTodo = {
-            id: uuid(),
-            value: this.state.inputVal,
-            done: false
-        }
-        this.setState({ todos: [...this.state.todos, newTodo] })
+        this.props.addTodo(this.state.inputVal)
+        this.setState({ newTodoVal: '' })
     }
 
     onItemDone(id) {
-        let refToDo = this.state.todos;
-        refToDo.map(function (item) {
+        let refToDo = this.props.todos;
+        let newTodos = refToDo.map(function (item) {
             if (item.id === id) {
-                if (item.done == false) {
+                if (item.done === false) {
                     item.done = true;
                 }
                 else {
                     item.done = false;
                 }
             }
+            return item
         });
-        this.setState({ todos: [...this.state.todos] })
-
-        //console.log(id);
+        this.props.markTodo(newTodos)
     }
 
     render() {
         return (
             <div>
-                <input type="text" id="todoVal" onChange={this.onTextChange} />
+                <input type="text" value={this.state.inputVal} id="todoVal" onChange={this.onTextChange} />
                 <button className="button-secondary pure-button" onClick={this.onClick}>Add Todo</button>
-                <ToDosList todos={this.state.todos} onItemDone={this.onItemDone} />
+                <ToDosList todos={this.props.todos} onItemDone={this.onItemDone} />
                 <h1>Done:</h1>
-                <ToDosDone todos={this.state.todos} onItemDone={this.onItemDone} />
+                <ToDosDone todos={this.props.todos} onItemDone={this.onItemDone} />
             </div>
         );
     }
 }
 
-export default ToDosContainer;
+function mapStateToProps(state) {
+    return {
+        todos: state.todos
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addTodo: value => dispatch(addTodo(value)),
+        fetchTodo: value => dispatch(fetchTodo(value)),
+        markTodo: value => dispatch(markTodo(value))
+    }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToDosContainer);

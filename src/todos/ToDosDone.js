@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 class ToDosDone extends React.Component {
 
     render() {
-        //console.log(this.props)
         var props = this.props
         return (
             <ul>
@@ -19,12 +18,11 @@ class ToDosDone extends React.Component {
                 }
             </ul>
         );
-        return <div></div>
     }
 }
 
 ToDosDone.propTypes = {
-    todos: PropTypes.object,
+    todos: PropTypes.array,
     onItemDone: PropTypes.func
 }
 
