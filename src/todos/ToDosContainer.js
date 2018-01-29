@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { addTodo, fetchTodo, markTodo, deleteTodo } from './actions'
+import { addTodo, fetchTodo, markTodo, deleteTodo,  getTodos } from './actions'
 import ToDosList from './ToDosList'
 import ToDosDone from './ToDosDone'
 
@@ -20,15 +20,7 @@ class ToDosContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.getFetch()
-    }
-
-    getFetch() {
-        fetch('http://localhost:2000/todos').then((data) => {
-            return data.json()
-        }).then((todos) => {
-            this.props.fetchTodo(todos)
-        })
+        this.props.loadData()
     }
 
     onTextChange(ev) {
@@ -57,16 +49,7 @@ class ToDosContainer extends React.Component {
     }
 
     onItemDelete(id) {
-        console.log(id)
-        let cont = 0
-        let posDelete = 0
-        this.props.todos.map(function (item) {
-            if (item.id === id) {
-                posDelete = cont
-            }
-            cont++
-        })
-        this.props.deleteTodo(posDelete)
+        this.props.deleteTodo(id)
     }
 
     render() {
@@ -90,6 +73,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        loadData: () => {
+            dispatch(getTodos())
+          },
         addTodo: value => dispatch(addTodo(value)),
         fetchTodo: value => dispatch(fetchTodo(value)),
         markTodo: value => dispatch(markTodo(value)),

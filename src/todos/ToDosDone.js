@@ -13,7 +13,6 @@ class ToDosDone extends React.Component {
                         if (item.done === true) {
                             return < ToDoItem key={item.id} todo={item} onItemDone={props.onItemDone} onItemDelete={props.onItemDelete} />
                         }
-
                     })
                 }
             </ul>
