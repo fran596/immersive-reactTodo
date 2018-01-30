@@ -42,11 +42,36 @@ const todos = (state = DEFAULT_STATE, action) => {
                 ...state,
                 error: action.error
             }
-        case 'MARK_TODO':
+        // case 'MARK_TODO':
+        //     return {
+        //         ...state,
+        //         todos: action.value
+        //     }
+
+        case 'MARK_TODO_REQUEST':
             return {
                 ...state,
-                todos: action.value
+                loading: true
             }
+
+        case 'MARK_TODO_SUCCESS':
+            return {
+                ...state,
+                todos: state.todos.map(item => {
+                    if (item.id === action.id) {
+                        item.done = !item.done
+                    }
+                    return item;
+                }), 
+                loading: false
+            }
+
+        case 'MARK_TODO_FAILURE':
+            return {
+                ...state,
+                error: action.error
+            }
+
         case 'DELETE_TODO_REQUEST':
             return {
                 ...state,

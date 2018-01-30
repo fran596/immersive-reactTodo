@@ -1,11 +1,6 @@
 {
   "todos": [
     {
-      "id": 1,
-      "value": "hola",
-      "done": false
-    },
-    {
       "id": "e8ef6e00-052e-11e8-81dd-e322a9730b42",
       "value": "prueba 1",
       "done": false

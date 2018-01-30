@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { addTodo, fetchTodo, markTodo, deleteTodo,  getTodos } from './actions'
+import { addTodo, markTodo, deleteTodo,  getTodos } from './actions'
 import ToDosList from './ToDosList'
 import ToDosDone from './ToDosDone'
 
@@ -32,20 +32,8 @@ class ToDosContainer extends React.Component {
         this.setState({ inputVal: '' })
     }
 
-    onItemDone(id) {
-        let refToDo = this.props.todos;
-        let newTodos = refToDo.map(function (item) {
-            if (item.id === id) {
-                if (item.done === false) {
-                    item.done = true;
-                }
-                else {
-                    item.done = false;
-                }
-            }
-            return item
-        });
-        this.props.markTodo(newTodos)
+    onItemDone(obj) {
+        this.props.markTodo(obj)
     }
 
     onItemDelete(id) {
@@ -77,7 +65,6 @@ function mapDispatchToProps(dispatch) {
             dispatch(getTodos())
           },
         addTodo: value => dispatch(addTodo(value)),
-        fetchTodo: value => dispatch(fetchTodo(value)),
         markTodo: value => dispatch(markTodo(value)),
         deleteTodo: id => dispatch(deleteTodo(id))
     }
