@@ -101,7 +101,7 @@ export const markTodo = obj => {
       })
       .catch(error => {
         dispatch({
-          type: ADD_TODO_FAILURE,
+          type: MARK_TODO_FAILURE,
           error: error
         })
       })

@@ -1,5 +1,3 @@
-// todos reducer
-import uuid from 'uuid/v1'
 
 const DEFAULT_STATE = {
     loading: false,
